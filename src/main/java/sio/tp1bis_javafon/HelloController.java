@@ -3,6 +3,7 @@ package sio.tp1bis_javafon;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -92,13 +93,13 @@ public class HelloController implements Initializable {
     private Sort sortCharge = new Sort("Charge", true, "Normal", true, 100, 100);
 
     private Sort sortPlanteFort = new Sort("Lance Soleil", false, "Plante", true, 150, 70);
-    private Sort sortPlanteFaible = new Sort("Fouet-liane", true, "Plante", true, 100, 100);
+    private Sort sortPlanteFaible = new Sort("Fouet-liane", true, "Plante", true, 120, 100);
 
     private Sort sortEauFort = new Sort("Vibraqua", true, "Eau", true, 150, 70);
-    private Sort sortEauFaible = new Sort("Bulle d'eau", false, "Eau", true, 100, 100);
+    private Sort sortEauFaible = new Sort("Bulle d'eau", false, "Eau", true, 120, 100);
 
     private Sort sortFeuFort = new Sort("Surchauffe", true, "Feu", true, 150, 70);
-    private Sort sortFeuFaible = new Sort("Flammèche", false, "Feu", true, 100, 100);
+    private Sort sortFeuFaible = new Sort("Flammèche", false, "Feu", true, 120, 100);
     Pokemon arcanin = new Pokemon("Arcanin", 110, 80, 95, 100, 80, 90,90,
             "Interface/arcStats.png", "Adversaire/feuAdversaire.gif", null,
             "Interface/arcNom.png", sortSoin, sortCharge, sortFeuFort, sortFeuFaible);
@@ -204,9 +205,14 @@ public class HelloController implements Initializable {
             adversaire = empiflor;
         else
             adversaire = staros;
+        adversaire.fullPV();
         changeImageViewImg(imgAdversaire, adversaire.getImgFace());
         lblAdversaireNom.setText(adversaire.getNom());
         lblAllieNom.setText(allie.getNom());
+        majVita();
+    }
+    public void majVita()
+    {
         writeRapideInt(lblAlliePvAct, allie.getPvActuel());
         writeRapideInt(lblAdversairePvAct, adversaire.getPvActuel());
         writeRapideInt(lblAdversairePvMax, adversaire.getPvMax());
@@ -256,21 +262,79 @@ public class HelloController implements Initializable {
 
     @FXML
     public void lanceSort4(Event event) {
-        goToDebut(null);
+        lanceSortGeneral(allie.getS4());
+
     }
 
     @FXML
     public void lanceSort3(Event event) {
+        lanceSortGeneral(allie.getS3());
     }
 
     @FXML
     public void lanceSort2(Event event) {
+        lanceSortGeneral(allie.getS2());
     }
 
     @FXML
     public void lanceSort1(Event event) {
+        lanceSortGeneral(allie.getS1());
     }
+    public void lanceSortGeneral(Sort s)
+    {
+        lanceSort(allie, s, adversaire);
+        mortAdversaire(adversaire.testMort());
+        lanceSort(adversaire, sortAdversaireAleatoire(), allie);
+        mortAllie(allie.testMort());
+    }
+    public void lanceSort(Pokemon pokemonLancant, Sort s, Pokemon pokemonRecevant)
+    {
+        if(s.isEstAttaque())
+        {
+            pokemonRecevant.degatsSubis(pokemonLancant.attaquePokemon(s), s.isEstPhysique());
+        }
+        else
+        {
+            pokemonLancant.seSoigne();
+        }
+        majVita();
+    }
+    public Sort sortAdversaireAleatoire()
+    {
+        int alea = alea();
+        if(alea < 25)
+            return adversaire.getS1();
+        else if (alea < 50)
+            return adversaire.getS2();
+        else if (alea < 75)
+            return adversaire.getS3();
+        return adversaire.getS4();
 
+    }
+    public void mortAllie(boolean b)
+    {
+        if(b)
+        {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText("MORT");
+            a.setTitle("MORT");
+            a.setContentText("Votre " + allie.getNom() + " a succombé à ses blessures face au terrible " + adversaire.getNom() + ". Navrant ...");
+            a.showAndWait();
+            goToDebut(null);
+        }
+    }
+    public void mortAdversaire(boolean b)
+    {
+        if(b)
+        {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText("Bravo !");
+            a.setTitle("Bravo !");
+            a.setContentText("Votre " + allie.getNom() + " a abattu ce pauvre " + adversaire.getNom() + ". Vous n'avez vraiment honte de rien ...");
+            a.showAndWait();
+            goToDebut(null);
+        }
+    }
 
     // -------------------------------------------------------------------------------------------------------------- //
     // -------------------------------------------------------------------------------------------------------------- //

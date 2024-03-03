@@ -37,6 +37,49 @@ public class Pokemon {
         this.s4 = s4;
     }
 
+    public int degatsTotaux (Sort s)
+    {
+        int facteur = this.attaque;
+        if(!s.isEstPhysique())
+            facteur = this.attaqueSpeciale;
+        int degatsTotaux = (s.getPuissance()*facteur)/100;
+        return degatsTotaux;
+    }
+    public int attaquePokemon(Sort s)
+    {
+        int reussite = (s.getPrecision() * this.vitesse)/100;
+        if(!(reussite < alea()))
+            return degatsTotaux(s);
+        return 0;
+    }
+    public int degatsSubis (int degat, boolean phy)
+    {
+        if(phy)
+            degat = degat - this.defense;
+        else
+            degat = degat - this.defenseSpeciale;
+        if(degat < 1)
+            degat = 0;
+        this.pvActuel -= degat;
+        return this.pvActuel;
+
+    }
+    public void fullPV()
+    {
+        this.pvActuel = this.pvMax;
+    }
+    public boolean testMort()
+    {
+        if(this.getPvActuel() <= 0)
+            return true;
+        return false;
+    }
+    public void seSoigne()
+    {
+        this.pvActuel += 25;
+        if(pvActuel> this.pvMax)
+            this.pvActuel = this.pvMax;
+    }
     public String getImgStats() {
         return imgStats;
     }
@@ -100,4 +143,5 @@ public class Pokemon {
     public int getPvActuel() {
         return pvActuel;
     }
+    public int alea() { return (int)(Math.random() * 101 ); } // 0 to 100
 }

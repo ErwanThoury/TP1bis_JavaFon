@@ -12,7 +12,7 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sio.tp1bis_javafon.HelloController">
    <children>
-      <AnchorPane fx:id="apDebut" disable="true" prefHeight="400.0" prefWidth="600.0" visible="false">
+      <AnchorPane fx:id="apDebut" prefHeight="400.0" prefWidth="600.0">
          <children>
             <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="150.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -46,7 +46,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apChoix" disable="true" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="apChoix" prefHeight="200.0" prefWidth="200.0">
          <children>
             <ImageView fitHeight="400.0" fitWidth="600.0" layoutX="-139.0" onMouseClicked="#goToPokedex" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -94,7 +94,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apPokedex" disable="true" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="apPokedex" prefHeight="200.0" prefWidth="200.0">
          <children>
             <ImageView fx:id="imgPokedexAllieFace" fitHeight="150.0" fitWidth="200.0" layoutX="48.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true">
                <image>
